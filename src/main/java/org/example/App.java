@@ -1,6 +1,5 @@
 package org.example;
 
-import atlantafx.base.theme.PrimerDark;
 import atlantafx.base.theme.PrimerLight;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -78,7 +77,7 @@ public class App extends Application {
 
         aboutItem.setOnAction(_ -> showAboutDialog());
         exitItem.setOnAction(_ -> showExitConfirmationDialog());
-        preferencesItem.setOnAction(event -> showConfigurationWindow());
+        preferencesItem.setOnAction(_ -> showConfigurationWindow());
 
         return menuBar;
     }
