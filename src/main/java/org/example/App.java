@@ -39,7 +39,7 @@ public class App extends Application {
         root.setPadding(new Insets(0));
 
         // Create the scene
-        Scene scene = new Scene(root, 400, 300);
+        Scene scene = new Scene(root, 800, 600);
 
         // Set the stage properties
         primaryStage.setOnCloseRequest(event -> {
@@ -58,12 +58,13 @@ public class App extends Application {
         final MenuItem openItem = new MenuItem("Open");
         final MenuItem saveItem = new MenuItem("Save");
         final MenuItem exitItem = new MenuItem("Exit");
+        final MenuItem preferencesItem = new MenuItem("Preferences");
 
         MenuItem aboutItem = new MenuItem("About");
 
         // Create the menus
         final Menu fileMenu = new Menu("File");
-        fileMenu.getItems().addAll(newItem, openItem, saveItem, new SeparatorMenuItem(), exitItem);
+        fileMenu.getItems().addAll(newItem, openItem, saveItem,preferencesItem, new SeparatorMenuItem(), exitItem);
 
         final Menu editMenu = new Menu("Edit");
         final Menu helpMenu = new Menu("Help");
@@ -77,6 +78,7 @@ public class App extends Application {
 
         aboutItem.setOnAction(_ -> showAboutDialog());
         exitItem.setOnAction(_ -> showExitConfirmationDialog());
+        preferencesItem.setOnAction(event -> showConfigurationWindow());
 
         return menuBar;
     }
@@ -118,6 +120,11 @@ public class App extends Application {
                 Platform.exit();
             }
         });
+    }
+
+    private void showConfigurationWindow() {
+        ConfigWindow configWindow = new ConfigWindow();
+        configWindow.showAndWait();
     }
 
     public static void main(String[] args) {
