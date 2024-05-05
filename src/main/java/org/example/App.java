@@ -1,6 +1,9 @@
 package org.example;
 
+import atlantafx.base.theme.PrimerDark;
+import atlantafx.base.theme.PrimerLight;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,6 +18,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // find more themes in 'atlantafx.base.theme' package
+        Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
+        //Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
+
         // Create the menubar
         final MenuBar menuBar = createMenuBar();
 
@@ -35,6 +42,11 @@ public class App extends Application {
         Scene scene = new Scene(root, 400, 300);
 
         // Set the stage properties
+        primaryStage.setOnCloseRequest(event -> {
+            event.consume(); // Consume the event to prevent immediate closing
+            showExitConfirmationDialog();
+        });
+
         primaryStage.setTitle("MenuBar, ToolBar, and StatusBar Example");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -64,6 +76,7 @@ public class App extends Application {
         menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
 
         aboutItem.setOnAction(_ -> showAboutDialog());
+        exitItem.setOnAction(_ -> showExitConfirmationDialog());
 
         return menuBar;
     }
@@ -82,12 +95,29 @@ public class App extends Application {
     }
 
     private void showAboutDialog() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        final Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
         alert.setHeaderText("My Application");
         alert.setContentText("This is a sample application demonstrating the use of MenuBar, ToolBar, and StatusBar in JavaFX.");
 
         alert.showAndWait();
+    }
+
+    private void showExitConfirmationDialog() {
+        final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Confirmation");
+        alert.setHeaderText("Exit Application");
+        alert.setContentText("Are you sure you want to exit the application?");
+
+        final ButtonType yesButton = new ButtonType("Yes");
+        final ButtonType noButton = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(yesButton, noButton);
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == yesButton) {
+                Platform.exit();
+            }
+        });
     }
 
     public static void main(String[] args) {
