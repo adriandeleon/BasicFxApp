@@ -6,6 +6,7 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <java.version>22</java.version>
+        <javafx.version>22.0.1</javafx.version>
         <native.maven.plugin.version>0.10.1</native.maven.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -19,7 +20,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>22.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>
@@ -69,6 +70,8 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
+                            <jlinkImageName>${imageName}</jlinkImageName>
+                            <launcher>launcher</launcher>
                             <mainClass>${app.mainClass}</mainClass>
                         </configuration>
                     </execution>
